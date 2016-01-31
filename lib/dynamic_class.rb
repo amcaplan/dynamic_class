@@ -94,6 +94,14 @@ module DynamicClass
     def add_methods!(key)
       self.class.send(:attr_accessor, key)
       self.class.attributes << key
+
+      # I'm pretty sure this is safe, because attempting to add an attribute
+      # that isn't a valid instance variable name will raise an error. Please
+      # contact the maintainer if you find a situation where this could be a
+      # security problem.
+      #
+      # The reason to use class_eval here is because, based on benchmarking,
+      # this defines the fastest version of #to_h possible.
       self.class.class_eval <<-RUBY
         def to_h
           {
