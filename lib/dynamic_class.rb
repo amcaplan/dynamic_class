@@ -59,7 +59,7 @@ module DynamicClass
 
     def initialize(attributes = {})
       attributes.each_pair do |key, value|
-        send(:"#{key}=", value)
+        __send__(:"#{key}=", value)
       end
     end
 
