@@ -37,7 +37,7 @@ describe DynamicClass do
   end
 
   describe 'append-only method signature' do
-   it 'does not respond to getters and setters by default' do
+    it 'does not respond to getters and setters by default' do
       expect_subject_does_not_respond(:foo)
     end
 
@@ -252,6 +252,30 @@ describe DynamicClass do
 
       it 'raises a RuntimeError when modifying a value' do
         expect { subject.foo = 'quux' }.to raise_error(RuntimeError)
+      end
+    end
+  end
+
+  describe 'custom class code' do
+    context 'when a block is not specified' do
+      let(:klass) { DynamicClass.new }
+
+      it 'does not raise an error' do
+        expect { klass.new }.not_to raise_error
+      end
+    end
+
+    context 'when a block is specified' do
+      let(:klass) {
+        DynamicClass.new do
+          def four
+            4
+          end
+        end
+      }
+
+      it 'responds to methods defined in the passed-in block' do
+        expect(subject.four).to eq(4)
       end
     end
   end
