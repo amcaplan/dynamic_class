@@ -279,4 +279,27 @@ describe DynamicClass do
       end
     end
   end
+
+  describe 'thread-safety' do
+    context 'adding keys in multiple threads' do
+      before do
+        500.times.map { |i|
+          Thread.new do
+            subject["foo#{i}"] = i
+          end
+        }.each(&:join)
+      end
+
+      it 'adds all the keys appropriately' do
+        (0...500).each do |i|
+          expect(subject).to respond_to(:"foo#{i}")
+        end
+      end
+
+      it 'updates #to_h properly' do
+        keys = (0...500).map { |i| :"foo#{i}" }
+        expect(subject.to_h).to include(*keys)
+      end
+    end
+  end
 end

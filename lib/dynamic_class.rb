@@ -23,6 +23,38 @@ module DynamicClass
           end
         RUBY
       end
+
+      def mutex
+        @mutex ||= Mutex.new
+      end
+
+      def add_methods!(key)
+        class_exec do
+          mutex.synchronize do
+            attr_accessor key
+            attributes << key
+
+            # I'm pretty sure this is safe, because attempting to add an attribute
+            # that isn't a valid instance variable name will raise an error. Please
+            # contact the maintainer if you find a situation where this could be a
+            # security problem.
+            #
+            # The reason to use class_eval here is because, based on benchmarking,
+            # this defines the fastest version of #to_h possible.
+            class_eval <<-RUBY
+              def to_h
+                {
+                  #{
+                    attributes.map { |attribute|
+                      "#{attribute.inspect} => #{attribute}"
+                    }.join(",\n")
+                  }
+                }
+              end
+            RUBY
+          end
+        end
+      end
     end
 
     def initialize(attributes = {})
@@ -38,7 +70,7 @@ module DynamicClass
     def []=(key, value)
       key = key.to_sym
       instance_variable_set(:"@#{key}", value)
-      add_methods!(key) unless self.class.attributes.include?(key)
+      self.class.add_methods!(key) unless self.class.attributes.include?(key)
     end
 
     def [](key)
@@ -80,31 +112,6 @@ module DynamicClass
 
     def hash
       to_h.hash
-    end
-
-    private
-    def add_methods!(key)
-      self.class.send(:attr_accessor, key)
-      self.class.attributes << key
-
-      # I'm pretty sure this is safe, because attempting to add an attribute
-      # that isn't a valid instance variable name will raise an error. Please
-      # contact the maintainer if you find a situation where this could be a
-      # security problem.
-      #
-      # The reason to use class_eval here is because, based on benchmarking,
-      # this defines the fastest version of #to_h possible.
-      self.class.class_eval <<-RUBY
-        def to_h
-          {
-            #{
-              self.class.attributes.map { |attribute|
-                "#{attribute.inspect} => #{attribute}"
-              }.join(",\n")
-            }
-          }
-        end
-      RUBY
     end
   end
 end
