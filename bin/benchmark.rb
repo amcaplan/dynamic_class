@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require 'benchmark/ips'
 require 'dynamic_class'
 require 'ostruct'
