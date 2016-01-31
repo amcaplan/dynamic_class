@@ -1,4 +1,4 @@
-require "dynamic_class/version"
+require 'dynamic_class/version'
 require 'set'
 
 module DynamicClass
@@ -19,11 +19,7 @@ module DynamicClass
       def inherited(subclass)
         subclass.class_eval <<-RUBY
           def to_h
-            {}.tap do |hash|
-              each_pair do |key, value|
-                hash[key] = value
-              end
-            end
+            {}
           end
         RUBY
       end
@@ -36,11 +32,7 @@ module DynamicClass
     end
 
     def to_h
-      {}.tap do |hash|
-        each_pair do |key, value|
-          hash[key] = value
-        end
-      end
+      {}
     end
 
     def []=(key, value)
