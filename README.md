@@ -1,3 +1,7 @@
+[![Gem Version](https://badge.fury.io/rb/dynamic_class.svg)](https://badge.fury.io/rb/dynamic_class)
+[![Build Status](https://travis-ci.org/amcaplan/dynamic_class.svg?branch=master)](https://travis-ci.org/amcaplan/dynamic_class)
+[![Code Climate](https://codeclimate.com/github/amcaplan/dynamic_class.png)](https://codeclimate.com/github/amcaplan/dynamic_class)
+
 # DynamicClass
 
 Many developers use `OpenStruct` as a convenient way of consuming APIs through
