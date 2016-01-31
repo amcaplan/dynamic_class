@@ -99,7 +99,7 @@ module DynamicClass
     end
 
     def delete_field(key)
-      self[key] = nil
+      instance_variable_set(:"@#{key}", nil)
     end
 
     def ==(other)
