@@ -239,44 +239,6 @@ describe DynamicClass do
     end
   end
 
-  describe 'inspecting' do
-    context 'an empty instance' do
-      it 'shows it is an instance of a DynamicClass Class' do
-        expect(subject.inspect).to eq("#<DynamicClass::Class>")
-      end
-    end
-
-    context 'an instance with an assigned value' do
-      before do
-        subject.foo = 'bar'
-      end
-
-      it 'displays the value' do
-        expect(subject.inspect).to eq('#<DynamicClass::Class foo="bar">')
-      end
-    end
-
-    context 'an instance nested within an instance' do
-      before do
-        subject.foo = klass.new(foo: 'bar')
-      end
-
-      it 'displays the nested instance as a value' do
-        expect(subject.inspect).to eq('#<DynamicClass::Class foo=#<DynamicClass::Class foo="bar">>')
-      end
-    end
-
-    context 'an instance nested inside itself' do
-      before do
-        subject.foo = subject
-      end
-
-      it 'short-circuits inspection to avoid infinite recursion' do
-        expect(subject.inspect).to eq('#<DynamicClass::Class foo=#<DynamicClass::Class ...>>')
-      end
-    end
-  end
-
   describe 'freezing' do
     context 'subject is frozen' do
       before do

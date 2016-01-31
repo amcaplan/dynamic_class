@@ -14,10 +14,6 @@ module DynamicClass
         @attributes ||= Set.new
       end
 
-      def inspect
-        super.insert(2, 'DynamicClass::')
-      end
-
       # Always revert to original #to_h in case the parent class has already
       # redefined #to_h.
       def inherited(subclass)
@@ -48,8 +44,8 @@ module DynamicClass
     end
 
     def []=(key, value)
-      instance_variable_set(:"@#{key}", value)
       key = key.to_sym
+      instance_variable_set(:"@#{key}", value)
       add_methods!(key) unless self.class.attributes.include?(key)
     end
 
@@ -75,25 +71,6 @@ module DynamicClass
         self[mid]
       else
         raise ArgumentError, "wrong number of arguments (#{len} for 0)", caller(1)
-      end
-    end
-
-    def inspect
-      inspecting_ids = (Thread.current[:__inspecting_dynamic_class__] ||= [])
-      str = "#<DynamicClass::Class"
-      if inspecting_ids.include?(object_id)
-        return str << ' ...>'
-      else
-        begin
-          inspecting_ids.push(object_id)
-          attributes = self.class.attributes.map { |attribute|
-            "#{attribute}=#{self.send(attribute).inspect}"
-          }.join(', ')
-          return str << '>' if attributes.empty?
-          return str << ' ' << attributes << '>'
-        ensure
-          inspecting_ids.pop
-        end
       end
     end
 
