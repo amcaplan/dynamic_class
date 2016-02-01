@@ -151,7 +151,15 @@ describe DynamicClass do
     let(:data) {{ name: "John Smith", age: 70, pension: 300 }}
 
     it 'iterates through each pair' do
-      expect(subject.each_pair.to_a).to eq(data.each_pair.to_a)
+      pairs = data.each_pair
+      subject.each_pair do |key, value|
+        expect([key, value]).to eq(pairs.next)
+      end
+      expect { pairs.next }.to raise_error(StopIteration) # all values were seen
+    end
+
+    it 'returns the iterated hash' do
+      expect(subject.each_pair{}).to eq(data)
     end
   end
 

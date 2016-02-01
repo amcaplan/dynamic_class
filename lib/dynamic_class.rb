@@ -79,8 +79,8 @@ module DynamicClass
 
     def each_pair
       return to_enum(__method__) { self.class.attributes.size } unless block_given?
-      self.class.attributes.map do |attribute|
-        yield(attribute, instance_variable_get(:"@#{attribute}"))
+      to_h.each_pair do |key, value|
+        yield key, value
       end
     end
 
