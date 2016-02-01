@@ -25,11 +25,16 @@ dog = Animal.new(type: 'dog', sound: 'woof')
 # => #<Animal:0x007fdb2b818ba8 @type="dog", @sound="woof">
 dog.speak
 # => The dog makes a woof sound!
+dog.ears = 'droopy'
+dog[:nose] = ['cold', 'wet']
+dog['tail'] = 'waggable'
+dog
+# => #<Animal:0x007fc26b1841d0 @type="dog", @sound="woof", @ears="droopy", @nose=["cold", "wet"], @tail="waggable">
 
 cat = Animal.new
 # => #<Animal:0x007fdb2b83b180>
 cat.to_h
-# => {:type=>nil, :sound=>nil}
+# => {:type=>nil, :sound=>nil, :ears=>nil, :nose=>nil, :tail=>nil}
 # The class has been changed by the dog!
 ```
 
