@@ -146,6 +146,13 @@ PersistentOpenStruct:   625010.1 i/s - 4.96x slower
 `DynamicClass` is still behind plain old Ruby classes, but it's the best out of
 the pack when it comes to `OpenStruct` and friends.
 
+## WARNING!
+
+This class should only be used to consume trusted APIs, or for similar purposes.
+It should never be used to take in user input. This will open you up to a memory
+leak DoS attack, since every new key becomes a new method defined on the class,
+and is never erased.
+
 ## Installation
 
 Add this line to your application's Gemfile:
