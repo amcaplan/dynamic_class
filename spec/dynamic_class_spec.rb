@@ -34,6 +34,32 @@ describe DynamicClass do
         expect(subject['foo']).to eq('bar')
       end
     end
+
+    context 'setting after initialization' do
+      let(:value) { double(:value) }
+
+      context 'setting with attr= methods' do
+        it 'returns the input value' do
+          expect(subject.foo = value).to eq(value)
+        end
+
+        it 'sets the value' do
+          subject.foo = value
+          expect(subject.foo).to eq(value)
+        end
+      end
+
+      context 'setting with []= method' do
+        it 'returns the input value' do
+          expect(subject[:foo] = value).to eq(value)
+        end
+
+        it 'sets the value' do
+          subject[:foo] = value
+          expect(subject.foo).to eq(value)
+        end
+      end
+    end
   end
 
   describe 'append-only method signature' do
