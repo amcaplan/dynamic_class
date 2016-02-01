@@ -30,6 +30,10 @@ dog[:nose] = ['cold', 'wet']
 dog['tail'] = 'waggable'
 dog
 # => #<Animal:0x007fc26b1841d0 @type="dog", @sound="woof", @ears="droopy", @nose=["cold", "wet"], @tail="waggable">
+dog.type
+# => "dog"
+dog.tail
+# => "waggable"
 
 cat = Animal.new
 # => #<Animal:0x007fdb2b83b180>
