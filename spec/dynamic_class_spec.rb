@@ -99,6 +99,47 @@ describe DynamicClass do
       subject.delete_field(:foo)
       expect_subject_responds(:foo)
     end
+
+    describe 'not overwriting existing methods' do
+      let(:klass) {
+        DynamicClass.new do
+          def bar=(value)
+            @bar = value + 4
+          end
+
+          def foo
+            @foo + 3
+          end
+        end
+      }
+
+      context 'on attributes set at initialization' do
+        let(:data) {{ foo: 0, bar: 0 }}
+
+        it 'uses the explicitly defined setter' do
+          expect(subject.bar).to eq(4)
+        end
+
+        it 'uses the explicitly defined getter' do
+          expect(subject.foo).to eq(3)
+        end
+      end
+
+      context 'on attributes set after initialization' do
+        before do
+          subject.foo = 0
+          subject.bar = 0
+        end
+
+        it 'uses the explicitly defined setter' do
+          expect(subject.bar).to eq(4)
+        end
+
+        it 'uses the explicitly defined getter' do
+          expect(subject.foo).to eq(3)
+        end
+      end
+    end
   end
 
   describe 'equality testing' do

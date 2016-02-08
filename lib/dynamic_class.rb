@@ -31,7 +31,8 @@ module DynamicClass
       def add_methods!(key)
         class_exec do
           mutex.synchronize do
-            attr_accessor key
+            attr_writer key unless method_defined?("#{key}=")
+            attr_reader key unless method_defined?("#{key}")
             attributes << key
 
             # I'm pretty sure this is safe, because attempting to add an attribute
