@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "ofstruct", "~> 0.2"
   spec.add_development_dependency "persistent_open_struct", "~> 0.0"
-  spec.add_development_dependency "benchmark-ips", "~> 2.3.0"
+  spec.add_development_dependency "benchmark-ips", "~> 2.3"
 end
