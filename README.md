@@ -49,102 +49,103 @@ the cost of setting a property drops.
 
 The results are pretty astounding. Here are the results of the benchmark in
 `bin/benchmark.rb` (including a few other `OpenStruct`-like solutions for
-comparison), run on Ruby 2.2.4:
+comparison), run on Ruby 2.3.1; the final benchmark is most representative of
+the average case:
 
 ```
 Initialization benchmark
 
+Warming up --------------------------------------
+          OpenStruct    84.801k i/100ms
+PersistentOpenStruct    74.901k i/100ms
+      OpenFastStruct    81.303k i/100ms
+        DynamicClass    97.024k i/100ms
+        RegularClass   211.767k i/100ms
 Calculating -------------------------------------
-          OpenStruct    14.668k i/100ms
-PersistentOpenStruct    50.880k i/100ms
-      OpenFastStruct    49.682k i/100ms
-        DynamicClass    60.946k i/100ms
-        RegularClass   107.521k i/100ms
--------------------------------------------------
-          OpenStruct    165.010k (± 6.0%) i/s -    836.076k
-PersistentOpenStruct    793.144k (± 5.4%) i/s -      3.969M
-      OpenFastStruct    850.827k (± 5.0%) i/s -      4.273M
-        DynamicClass      1.026M (± 4.0%) i/s -      5.180M
-        RegularClass      3.451M (± 3.7%) i/s -     17.311M
+          OpenStruct      1.104M (± 5.8%) i/s -      5.512M in   5.011886s
+PersistentOpenStruct    941.181k (± 5.2%) i/s -      4.719M in   5.027485s
+      OpenFastStruct      1.020M (± 6.0%) i/s -      5.122M in   5.040500s
+        DynamicClass      1.309M (± 4.0%) i/s -      6.598M in   5.049905s
+        RegularClass      4.170M (± 4.0%) i/s -     20.965M in   5.036315s
 
 Comparison:
-        RegularClass:  3451422.2 i/s
-        DynamicClass:  1026234.0 i/s - 3.36x slower
-      OpenFastStruct:   850827.2 i/s - 4.06x slower
-PersistentOpenStruct:   793144.4 i/s - 4.35x slower
-          OpenStruct:   165009.7 i/s - 20.92x slower
+        RegularClass:  4169602.6 i/s
+        DynamicClass:  1308644.3 i/s - 3.19x slower
+          OpenStruct:  1103594.3 i/s - 3.78x slower
+      OpenFastStruct:  1019939.5 i/s - 4.09x slower
+PersistentOpenStruct:   941180.6 i/s - 4.43x slower
 
 
 
 Assignment Benchmark
 
+Warming up --------------------------------------
+          OpenStruct   216.147k i/100ms
+PersistentOpenStruct   210.657k i/100ms
+      OpenFastStruct   101.072k i/100ms
+        DynamicClass   311.870k i/100ms
+        RegularClass   312.066k i/100ms
 Calculating -------------------------------------
-          OpenStruct   112.139k i/100ms
-PersistentOpenStruct   113.798k i/100ms
-      OpenFastStruct    62.780k i/100ms
-        DynamicClass   140.472k i/100ms
-        RegularClass   141.757k i/100ms
--------------------------------------------------
-          OpenStruct      3.773M (± 5.8%) i/s -     18.839M
-PersistentOpenStruct      3.737M (± 6.8%) i/s -     18.663M
-      OpenFastStruct      1.086M (± 4.8%) i/s -      5.462M
-        DynamicClass      9.237M (± 5.8%) i/s -     46.075M
-        RegularClass      9.017M (± 7.6%) i/s -     44.795M
+          OpenStruct      4.505M (± 5.0%) i/s -     22.479M in   5.003206s
+PersistentOpenStruct      4.515M (± 5.0%) i/s -     22.540M in   5.005895s
+      OpenFastStruct      1.383M (± 3.5%) i/s -      6.974M in   5.048792s
+        DynamicClass     11.138M (± 5.0%) i/s -     55.825M in   5.026293s
+        RegularClass     11.069M (± 5.8%) i/s -     55.236M in   5.009156s
 
 Comparison:
-        DynamicClass:  9236626.8 i/s
-        RegularClass:  9017300.5 i/s - 1.02x slower
-          OpenStruct:  3773095.2 i/s - 2.45x slower
-PersistentOpenStruct:  3737490.7 i/s - 2.47x slower
-      OpenFastStruct:  1085576.3 i/s - 8.51x slower
+        DynamicClass: 11137717.4 i/s
+        RegularClass: 11068826.7 i/s - same-ish: difference falls within error
+PersistentOpenStruct:  4514966.3 i/s - 2.47x slower
+          OpenStruct:  4505071.4 i/s - 2.47x slower
+      OpenFastStruct:  1383122.4 i/s - 8.05x slower
 
 
 
 Access Benchmark
 
+Warming up --------------------------------------
+          OpenStruct   259.543k i/100ms
+PersistentOpenStruct   255.894k i/100ms
+      OpenFastStruct   225.799k i/100ms
+        DynamicClass   313.455k i/100ms
+        RegularClass   313.982k i/100ms
 Calculating -------------------------------------
-          OpenStruct   126.018k i/100ms
-PersistentOpenStruct   123.179k i/100ms
-      OpenFastStruct   113.118k i/100ms
-        DynamicClass   139.960k i/100ms
-        RegularClass   142.888k i/100ms
--------------------------------------------------
-          OpenStruct      5.409M (± 5.3%) i/s -     26.968M
-PersistentOpenStruct      5.341M (± 6.3%) i/s -     26.607M
-      OpenFastStruct      4.094M (± 5.5%) i/s -     20.474M
-        DynamicClass      9.623M (± 6.1%) i/s -     48.006M
-        RegularClass      9.655M (± 5.9%) i/s -     48.153M
+          OpenStruct      6.744M (± 5.0%) i/s -     33.741M in   5.016060s
+PersistentOpenStruct      6.863M (± 5.2%) i/s -     34.290M in   5.011129s
+      OpenFastStruct      4.717M (± 4.5%) i/s -     23.709M in   5.036478s
+        DynamicClass     11.467M (± 5.9%) i/s -     57.362M in   5.021761s
+        RegularClass     11.395M (± 6.6%) i/s -     56.831M in   5.011823s
 
 Comparison:
-        RegularClass:  9655298.6 i/s
-        DynamicClass:  9623042.4 i/s - 1.00x slower
-          OpenStruct:  5409401.0 i/s - 1.78x slower
-PersistentOpenStruct:  5341124.3 i/s - 1.81x slower
-      OpenFastStruct:  4094344.3 i/s - 2.36x slower
+        DynamicClass: 11467320.5 i/s
+        RegularClass: 11395421.4 i/s - same-ish: difference falls within error
+PersistentOpenStruct:  6862609.3 i/s - 1.67x slower
+          OpenStruct:  6744325.9 i/s - 1.70x slower
+      OpenFastStruct:  4717334.0 i/s - 2.43x slower
 
 
 
 All-Together Benchmark
 
+Warming up --------------------------------------
+          OpenStruct    13.929k i/100ms
+PersistentOpenStruct    64.546k i/100ms
+      OpenFastStruct    45.014k i/100ms
+        DynamicClass    96.783k i/100ms
+        RegularClass   197.149k i/100ms
 Calculating -------------------------------------
-          OpenStruct    14.450k i/100ms
-PersistentOpenStruct    46.072k i/100ms
-      OpenFastStruct    34.287k i/100ms
-        DynamicClass    58.110k i/100ms
-        RegularClass   107.647k i/100ms
--------------------------------------------------
-          OpenStruct    161.775k (± 5.7%) i/s -    809.200k
-PersistentOpenStruct    625.010k (± 5.7%) i/s -      3.133M
-      OpenFastStruct    446.903k (± 4.8%) i/s -      2.263M
-        DynamicClass    995.236k (± 5.0%) i/s -      4.997M
-        RegularClass      3.102M (± 5.7%) i/s -     15.501M
+          OpenStruct    147.361k (± 4.8%) i/s -    738.237k in   5.021813s
+PersistentOpenStruct    766.793k (± 5.8%) i/s -      3.873M in   5.069128s
+      OpenFastStruct    525.565k (± 4.1%) i/s -      2.656M in   5.062072s
+        DynamicClass      1.251M (± 4.0%) i/s -      6.291M in   5.038697s
+        RegularClass      3.758M (± 4.1%) i/s -     18.926M in   5.046044s
 
 Comparison:
-        RegularClass:  3102088.4 i/s
-        DynamicClass:   995235.5 i/s - 3.12x slower
-PersistentOpenStruct:   625010.1 i/s - 4.96x slower
-      OpenFastStruct:   446902.6 i/s - 6.94x slower
-          OpenStruct:   161775.4 i/s - 19.18x slower
+        RegularClass:  3757567.8 i/s
+        DynamicClass:  1250634.2 i/s - 3.00x slower
+PersistentOpenStruct:   766792.7 i/s - 4.90x slower
+      OpenFastStruct:   525565.1 i/s - 7.15x slower
+          OpenStruct:   147361.4 i/s - 25.50x slower
 ```
 
 `DynamicClass` is still behind plain old Ruby classes, but it's the best out of
